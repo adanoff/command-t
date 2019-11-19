@@ -23,6 +23,7 @@ describe CommandT::Scanner::BufferScanner do
 
   describe 'paths method' do
     it 'returns a list of regular files' do
+      # TODO[adanoff]: this fails as .paths calls into VIM which isn't working here?
       expect(@scanner.paths).to match_array(@paths)
     end
   end
