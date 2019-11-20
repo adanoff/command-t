@@ -41,6 +41,14 @@ function! commandt#FileFinder(arg) abort
   endif
 endfunction
 
+function! commandt#FileCreator() abort
+  if has('ruby')
+    ruby $command_t.show_file_creator
+  else
+    call s:RubyWarning()
+  endif
+endfunction
+
 function! commandt#JumpFinder() abort
   if has('ruby')
     ruby $command_t.show_jump_finder

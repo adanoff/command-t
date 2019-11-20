@@ -13,6 +13,7 @@ function! commandt#mirkwood#init() abort
   command! CommandTSearch call commandt#SearchFinder()
   command! CommandTTag call commandt#TagFinder()
   command! -nargs=? -complete=dir CommandT call commandt#FileFinder(<q-args>)
+  command! -complete=dir CommandTFileCreator call commandt#FileCreator()
   command! CommandTFlush call commandt#Flush()
   command! CommandTLoad call commandt#Load()
 
@@ -41,4 +42,5 @@ function! commandt#mirkwood#init() abort
   nnoremap <silent> <Plug>(CommandTMRU) :CommandTMRU<CR>
   nnoremap <silent> <Plug>(CommandTSearch) :CommandTSearch<CR>
   nnoremap <silent> <Plug>(CommandTTag) :CommandTTag<CR>
+  nnoremap <silent> <Plug>(CommandTFileCreator) :CommandTFileCreator<CR>
 endfunction

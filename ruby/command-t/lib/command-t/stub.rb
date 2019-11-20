@@ -24,7 +24,8 @@ module CommandT
       :show_line_finder,
       :show_mru_finder,
       :show_search_finder,
-      :show_tag_finder
+      :show_tag_finder,
+      :show_file_creator
     ].each do |method|
       define_method(method) { warn *@@load_error }
     end
