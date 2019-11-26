@@ -1,8 +1,6 @@
 # Copyright 2010-present Greg Hurrell. All rights reserved.
 # Licensed under the terms of the BSD 2-clause license.
 
-# TODO[adanoff]: need to create a method here for show_file_creator
-
 module CommandT
   class Controller
     include PathUtilities
@@ -25,6 +23,9 @@ module CommandT
         end
       END
     end
+
+    # TODO[adanoff]: can we write a `def_guarded` function (?) to def and guard
+    # at once?
 
     def initialize
       encoding = VIM::get_string('g:CommandTEncoding')
@@ -126,6 +127,27 @@ module CommandT
     end
     guard :show_tag_finder
 
+    def path_for_scm_traversal
+        traverse = VIM::get_string('g:CommandTTraverseSCM') || 'file'
+        case traverse
+        when 'file'
+          path = nearest_ancestor(VIM::current_file_dir, scm_markers) || VIM::pwd
+        when 'dir'
+          path = nearest_ancestor(VIM::pwd, scm_markers) || VIM::pwd
+        else
+          path = VIM::pwd
+        end
+        path
+    end
+
+    def show_file_creator
+      @path = path_for_scm_traversal()
+      @active_finder = file_creator
+      file_creator.path = @path
+      show
+    end
+    guard :show_file_creator
+
     def show_file_finder
       # optional parameter will be desired starting directory, or ""
 
@@ -133,15 +155,7 @@ module CommandT
       if arg && arg.size > 0
         @path = File.expand_path(arg, VIM::pwd)
       else
-        traverse = VIM::get_string('g:CommandTTraverseSCM') || 'file'
-        case traverse
-        when 'file'
-          @path = nearest_ancestor(VIM::current_file_dir, scm_markers) || VIM::pwd
-        when 'dir'
-          @path = nearest_ancestor(VIM::pwd, scm_markers) || VIM::pwd
-        else
-          @path = VIM::pwd
-        end
+        @path = path_for_scm_traversal()
       end
 
       @active_finder    = file_finder
@@ -571,6 +585,12 @@ module CommandT
         ignore = ::VIM::evaluate('&wildignore').to_s
       end
       VIM::wildignore_to_regexp(ignore) unless ignore.nil?
+    end
+
+    def file_creator
+      # TODO[adanoff]: need to create this class!
+      # TODO[adanoff]: what params will it need? can we extract param code from below?
+      @file_creator ||= CommandT::Finder::FileCreator.new
     end
 
     def file_finder

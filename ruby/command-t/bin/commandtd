@@ -68,7 +68,7 @@ def write(payload)
   log "wrote: #{json}"
 end
 
-log "open for business running from #{__FILE__}"
+log "foofoo bar! open for business running from #{__FILE__}"
 
 while true
   log 'loop'

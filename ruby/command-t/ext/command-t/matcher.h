@@ -3,5 +3,7 @@
 
 #include <ruby.h>
 
+// TODO[adanoff]: figure out how these are pulled into ruby?
+
 extern VALUE CommandTMatcher_initialize(int argc, VALUE *argv, VALUE self);
 extern VALUE CommandTMatcher_sorted_matches_for(int argc, VALUE *argv, VALUE self);

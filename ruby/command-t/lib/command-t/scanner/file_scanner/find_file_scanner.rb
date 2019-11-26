@@ -23,13 +23,19 @@ module CommandT
             ]
           end
 
+          # TODO[adanoff]: actually I'm not sure this is even being called
+          # TODO[adanoff]: this seems like it should do the trick but doesn't seem to work
+          search_type = if @find_dirs_only then 'd' else 'f' end
+
+          print(search_type)
+
           paths = []
           Open3.popen3(*([
             'find', '-L',                 # follow symlinks
             @path,                        # anchor search here
             '-mindepth', '1',             # prevent dot dir filter applying to root
             '-maxdepth', @max_depth.to_s, # limit depth of DFS
-            '-type', 'f',                 # only show regular files (not dirs etc)
+            '-type', search_type,         # only show regular files (not dirs etc)
             '-print0',                    # NUL-terminate results
             dot_directory_filter          # possibly skip out dot directories
           ].flatten.compact)) do |stdin, stdout, stderr|

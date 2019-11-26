@@ -5,6 +5,8 @@ module CommandT
   class Finder
     class FileFinder < Finder
       def initialize(path = Dir.pwd, options = {})
+        scanner = options[:scanner]
+        # TODO[adanoff]: see if there's a scanner option for dirs only?
         case options.delete(:scanner)
         when 'ruby', nil # ruby is the default
           @scanner = Scanner::FileScanner::RubyFileScanner.new(path, options)
@@ -18,6 +20,7 @@ module CommandT
           raise ArgumentError, "unknown scanner type '#{options[:scanner]}'"
         end
 
+        # NOTE[adanoff]: the matcher init function just stores some stuff
         @matcher = Matcher.new @scanner, options
       end
 

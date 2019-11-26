@@ -14,6 +14,7 @@ module CommandT
     autoload :BufferFinder,    'command-t/finder/buffer_finder'
     autoload :CommandFinder,   'command-t/finder/command_finder'
     autoload :FileFinder,      'command-t/finder/file_finder'
+    autoload :FileCreator,      'command-t/finder/file_creator'
     autoload :HelpFinder,      'command-t/finder/help_finder'
     autoload :HistoryFinder,   'command-t/finder/history_finder'
     autoload :JumpFinder,      'command-t/finder/jump_finder'

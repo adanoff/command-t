@@ -28,6 +28,8 @@ module CommandT
         @wildignore           = options[:wildignore]
         @scan_submodules      = options[:git_scan_submodules] || false
         @include_untracked    = options[:git_include_untracked] || false
+        @find_dirs_only       = options[:find_dirs_only] || false
+        print(options)
       end
 
       def paths
@@ -78,6 +80,7 @@ module CommandT
       end
 
       def path_excluded?(path, prefix_len = @prefix_len)
+        # TODO[adanoff]: may be possible to handle dirs_only just in here?
         if @wildignore
           # First strip common prefix (@path) from path to match Vim's behavior.
           path = path[prefix_len..-1]
